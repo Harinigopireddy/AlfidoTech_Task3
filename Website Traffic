@@ -1,0 +1,87 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+data = pd.read_csv('traffic.csv')
+print(data.head())
+print(data.info())
+print(data.describe())
+print('Dataset Shape:',data.shape)
+print(data.dtypes)
+print(data.isnull().sum())
+print(data.describe())
+data['date']=pd.to_datetime(data['date'],dayfirst=True)
+print(data.info(23))
+print(data.head(23))
+total_album = data['album'].nunique()
+print("Total album:",total_album)
+print(data['city'])
+print(data.columns)
+total_linkids = data['linkid'].nunique()
+print('total linkids:',total_linkids)
+total_cities = data['city'].nunique()
+print('total cities',total_cities)
+total_events = data['event'].nunique()
+print('total events',total_events)
+total_events = data['event'].count()
+print('total events',total_events)
+print(data['city'].nunique())
+data.drop_duplicates(inplace=True)
+data = data.ffill()
+data['date'] = pd.to_datetime(data['date'],dayfirst=True)
+print(data.info(10))
+top_countries = data['country'].value_counts().head(10)
+plt.figure(figsize=(10,5))
+sns.barplot(
+    x=top_countries.values,
+    y=top_countries.index,
+color='green')
+plt.title('top countries',color='purple')
+plt.xlabel('count',color='purple')
+plt.ylabel('country',color='purple')
+plt.show()
+top_cities = data['city'].value_counts().head(10)
+plt.figure(figsize=(10,5))
+sns.scatterplot(x=top_cities.values,
+            y=top_cities.index,
+            color='red')
+plt.title('top cities',color='blue')
+plt.xlabel('cities',color='blue')
+plt.ylabel('cities',color='blue')
+plt.show()
+top_artists = data['artist'].value_counts().head(6)
+plt.figure(figsize=(10,5))
+sns.lineplot(x=top_artists.index,
+            y=top_artists.values,marker='o',
+            color='orange')
+plt.title('top artist',color='darkblue')
+plt.xlabel('artist',color='darkblue')
+plt.ylabel('count',color='darkblue')
+plt.show()
+top_albums = data['album'].value_counts().head(10)
+plt.figure(figsize=(10,5))
+sns.barplot(x=top_albums.index,
+            y=top_albums.values,
+            color='purple')
+plt.title('top albumns',color='darkgreen')
+plt.xlabel('album',color='darkgreen')
+plt.ylabel('count',color='darkgreen')
+plt.show()
+album_counts = data['album'].value_counts().head(10)
+plt.figure(figsize=(10,5))
+plt.pie(album_counts,labels=album_counts.index,
+        autopct='%1.1f%%')
+plt.title('album distribution',color='darkgreen')
+plt.show()
+artist_counts = data['artist'].value_counts().head(15)
+plt.figure(figsize=(10,5))
+plt.pie(artist_counts,labels=artist_counts.index,
+        autopct='%1.1f%%')
+plt.title('artist distribution',color='orange')
+plt.show()
+event_counts = data['event'].value_counts().head(10)
+plt.figure(figsize=(10,5))
+plt.pie(event_counts,labels=event_counts.index,
+        autopct='%1.1f%%')
+plt.title('event distribution',color='blue')
+plt.show()
